@@ -1,5 +1,5 @@
-# Documentation for Therapist Bot <br>
-Below is the documentation for Valerie's Therapist Bot, Eliza. 
+# Documentation for Eliza
+Below is the documentation for Valerie's therapist bot, Eliza. 
 
 ## Constants
 
@@ -17,31 +17,31 @@ Below is the documentation for Valerie's Therapist Bot, Eliza.
 Returns a question based on the patient’s line.
 - Parameters:
     - patientLine
-    Type: String
-    Patient’s text to respond to
+    Type: String  
+    Patient’s text to respond to  
 - Returns:
-    Type: String
-    Question based on the patient’s line
+    Type: String  
+    Question based on the patient’s line  
 
 **lastChar(myString)**
 Returns the last character in a string.
 - Parameters:
-    - myString
-    Type: String
-    String to return last character for
+    - myString  
+    Type: String  
+    String to return last character for  
 - Returns:
-    Type: String
-    Last character of the string
+    Type: String  
+    Last character of the string  
 
 **randomElement(myArray)**
 Returns a random element of an array
 - Parameters:
-    - myArray
-    Type: Array
-    Array with one or more elements
-- Returns:
-    Type: Whatever is in the array
-    Random element from the array
+    - myArray  
+    Type: Array  
+    Array with one or more elements  
+- Returns:  
+    Type: Whatever is in the array  
+    Random element from the array  
 
 
 ## Enumeration
