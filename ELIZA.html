@@ -2,16 +2,80 @@
 <html>
 <head>
 <style>
-p {
-    line-height: 50%;
+/* Style the header */
+/* Darker color for the header */
+h1 {
+    text-align: center;
+    color: #333; 
 }
+
+/* Add a light blue background color */
+/* You can also use RGB or other color representations */
+body {
+    background-color: #abe6f9;    
+}
+
+/* Style the line spacing */
+p {
+    line-height: 100%;
+}
+
+/* Style the input field */
+#textbox {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin: 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px rgba(21, 61, 241, 1); /* Add a subtle box shadow */
+}
+
+/* Style the submit button */
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50; /* Green color */
+    color: white;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049; /* Darker green color on hover */
+}
+
+/* Set max-width and center the chat container */
+#conversation {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white; /* Set a contrasting color for the chat area */
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(21, 61, 241, 1); /* Add a subtle box shadow */
+}
+/* Style the therapist responses */
+#conversation p {
+    margin: 10px 0;
+    font-style: normal;
+}
+
+/* Style user input */
+/* Set a different color for user input */
+#conversation em {
+    font-weight: bold;
+    color: #1E90FF; 
+}
+
 </style>
 </head>
 <body onload="initialize()">
 
 <h1>ELIZA</h1>
 
-<p>Write here: <input id="textbox" size="150"/></p>
+<h3>Welcome to my virtual office! It is quite easy to chat with me.</h3> 
+<h3>Just use the green "Submit" button to let me know what you are thinking. </h3>
+<h3>You will see my responses in the text box below.</h3>
+
+<p>Type your questions and responses here: <input id="textbox" size="150"/></p>
 <p><button onclick="submitLine()">Submit</button></p>
 
 <div id="conversation"></div>
@@ -71,7 +135,7 @@ const questionStarts = [
 
 // Create the first line of the conversation.
 function initialize() {
-    therapySession = "<p> I am the psychotherapist. What is your problem? </p>";
+    therapySession = "<p> Hello! I am Eliza, your therapist. What is troubling you today? </p>";
     conversation.innerHTML = therapySession;
 }
 

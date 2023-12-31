@@ -1,4 +1,4 @@
-Documentation for Therapist Bot
+# Documentation for Therapist Bot <br>
 Below is the documentation for Valerie's Therapist Bot, Eliza. 
 
 ## Constants
