@@ -1,134 +1,165 @@
-// String to hold the therapy discussion 
-var therapySession;
+// Store the HTML string representing the conversation
+let therapySession = "";
+
+// DOM references
+const textbox = document.getElementById("textbox");
+const conversation = document.getElementById("conversation");
 
 // Generic responses
 const genericResponses = [
-    "Uh-huh.",
-    "Go on.",
-    "Why do you say that?",
-    "That's very interesting.",
-    "Fascinating...",
-    "Keep talking."];
+  "Uh-huh.",
+  "Go on.",
+  "Why do you say that?",
+  "That's very interesting.",
+  "Fascinating...",
+  "Keep talking.",
+  "That sounds important—tell me more.",
+  "It seems you’ve been thinking about this a lot.",
+  "I’m curious—how long have you felt that way?",
+  "That’s an insightful observation.",
+  "You're clearly passionate about this.",
+  "You’re connecting a few things here. Let’s explore that.",
+  "That seems like it really affected you.",
+  "It sounds like that’s been on your mind a lot.",
+  "You’re thinking deeply—what else comes to mind?"
+];
 
-// Responses for when the therapist is asked a question
+// Clarification responses
+const clarificationResponses = [
+  "What exactly do you mean by that?",
+  "Could you give an example?",
+  "How does that usually play out for you?",
+  "When did you first notice this?",
+  "Does this happen often?",
+  "Can you walk me through that?",
+  "And how do you typically respond in that situation?",
+  "What do you think is at the root of that?"
+];
+
+// Responses for when the user asks a question
 const questionResponses = [
-    "Why do you ask that?",
-    "What do <em>you</em> think?",
-    "That's an interesting question.",
-    "How long have you wanted to know that?",
-    "That depends on who you ask."];
+  "Why do you ask that?",
+  "What do <em>you</em> think?",
+  "That's an interesting question.",
+  "How long have you wanted to know that?",
+  "That depends on who you ask."
+];
 
-// Responses for when the user ends a sentence with exclamation
+// Responses for exclamations
 const exclamationResponses = [
-    "Please calm down.",
-    "No need to get so excited.",
-    "You sound very passionate about that.",
-    "Would you care to restate that in a more neutral tone?"];
+  "Please calm down.",
+  "No need to get so excited.",
+  "You sound very passionate about that.",
+  "Would you care to restate that in a more neutral tone?"
+];
 
-// Mapping between 1st person and 3rd person
-    const povSwitches = {
-    "I": "you",
-    "i": "you",
-    "me": "you",
-    "myself": "yourself",
-    "am": "are",
-    "my": "your",
-    "My": "your",
-    "I'm": "you're",
-    "I'd": "you'd",
-    "I'll": "you'll",
-    "i'm": "you're",
-    "i'd": "you'd",
-    "i'll": "you'll"
-}
+// Point-of-view switches for transforming user input
+const povSwitches = {
+  "I": "you",
+  "i": "you",
+  "me": "you",
+  "myself": "yourself",
+  "am": "are",
+  "my": "your",
+  "My": "your",
+  "I'm": "you're",
+  "i'm": "you're",
+  "I'd": "you'd",
+  "i'd": "you'd",
+  "I'll": "you'll",
+  "i'll": "you'll"
+};
 
-// Beginnings of questions
+// Starter phrases for therapist questions
 const questionStarts = [
-    "Why do you say that",
-    "How is it that",
-    "Can you tell me more about how",
-    "And why is it that",
-    "Can you explain why you say that"];
+  "Why do you say that",
+  "How is it that",
+  "Can you tell me more about how",
+  "And why is it that",
+  "Can you explain why you say that"
+];
 
-// Create the first line of the conversation.
+// Initialize the chat window
 function initialize() {
-    therapySession = "<p> Hello! I am Eliza, your therapist. What is troubling you today? </p>";
-    conversation.innerHTML = therapySession;
+  therapySession = `<p>Hello! I am Dr. Eliza, your therapist. What is troubling you today?</p>`;
+  conversation.innerHTML = therapySession;
+  conversation.scrollTop = conversation.scrollHeight;
 }
 
-// This function handles the button click.
-// It will take the textbox value and add it to the therapySession variable.
+// Handle submission of user input
 function submitLine() {
-    var patientLine = textbox.value;
-    therapySession += "<p> <em>" + patientLine + "</em> </p>";
+  const patientLine = textbox.value.trim();
+  if (!patientLine) return; // Ignore blank input
 
-    // Create a new variable to hold the therapist’s line and set it to respond to 
-    // general statements, questions, and exclamations, using our new function.
-    var therapistLine;
-    if (lastChar(patientLine) == "?") {
-        therapistLine = randomElement(questionResponses);
-    } else if (lastChar(patientLine) == "!") {
-        therapistLine = randomElement(exclamationResponses);
-    } else {
-        therapistLine = createQuestion(patientLine);
+  // Display user input
+  therapySession += `<p><em>${patientLine}</em></p>`;
+
+  // Determine appropriate response
+  let therapistLine;
+  const last = lastChar(patientLine);
+
+  if (last === "?") {
+    therapistLine = randomElement(questionResponses);
+  } else if (last === "!") {
+    therapistLine = randomElement(exclamationResponses);
+  } else {
+    therapistLine = createQuestion(patientLine);
+
+    if (!therapistLine) {
+      // 20% chance to use a clarification response
+      therapistLine = Math.random() < 0.2
+        ? randomElement(clarificationResponses)
+        : randomElement(genericResponses);
     }
-    // Still no good response, so use a basic response.
-    if (therapistLine == null) {
-        therapistLine = randomElement(genericResponses);
-    }
+  }
 
-    // Add that new line to the therapySession array.
-    therapySession += "<p>" + therapistLine + "</p>";
-    conversation.innerHTML = therapySession;
+  therapySession += `<p>${therapistLine}</p>`;
+
+  // Limit total lines to prevent bloat
+  const lines = therapySession.split("</p>");
+  const MAX_LINES = 50;
+  if (lines.length > MAX_LINES * 2) {
+    therapySession = lines.slice(-MAX_LINES * 2).join("</p>");
+  }
+
+  // Update display
+  conversation.innerHTML = therapySession;
+  textbox.value = "";
+  conversation.scrollTop = conversation.scrollHeight;
 }
 
-// Generate random responses (random element in an array).
-function randomElement(myArray) {
-    var index = Math.floor(Math.random() * myArray.length);
-    return myArray[index];
+// Select a random item from an array
+function randomElement(array) {
+  return array[Math.floor(Math.random() * array.length)];
 }
 
-// Determine a question or exclamation mark to handle responses.
-function lastChar(myString) {
-    return myString.substring(myString.length - 1);
+// Get last character of a string
+function lastChar(str) {
+  return str.length ? str.slice(-1) : "";
 }
 
-// Generate a more sophisticated response.
+// Create a reflective therapist-style question
 function createQuestion(patientLine) {
-    // Check if "you" is there. Will also catch "your" and "yourself".
-    if (patientLine.toLowerCase().indexOf("you") != -1) {
-        // Can't handle this one. Return null.
-        return null;
+  if (patientLine.toLowerCase().includes("you")) {
+    return null; // Avoid responding to direct references to the bot
+  }
+
+  let modifiedLine = patientLine.replace(/\.$/, ""); 
+  let found = false;
+
+  for (const key in povSwitches) {
+    if (Object.prototype.hasOwnProperty.call(povSwitches, key)) {
+      const regex = new RegExp(`\\b${key}\\b`, "gi");
+      if (regex.test(modifiedLine)) {
+        modifiedLine = modifiedLine.replace(regex, povSwitches[key]);
+        found = true;
+      }
     }
+  }
 
-    // If there's a period at the end, remove it.
-    if (lastChar(patientLine) == ".") {
-        patientLine = patientLine.substring(0, patientLine.length - 1);
-    }
+  if (found) {
+    return `${randomElement(questionStarts)} ${modifiedLine}?`;
+  }
 
-    // Add spaces at beginning and end.
-    var modifiedLine = " " + patientLine + " ";
-
-    // Loop through all properties and replace 1st person words with 2nd person words.
-    var found = false;
-    for (var property in povSwitches) {
-        if (povSwitches.hasOwnProperty(property)) {
-            var modifiedProperty = " " + property + " ";
-            if (modifiedLine.indexOf(modifiedProperty) != -1) {
-                modifiedLine = modifiedLine.replace(modifiedProperty,
-                    " " + povSwitches[property] + " ");
-                found = true;
-            }
-        }
-    }
-
-    // If a replacement was made, then return a question.
-    if (found) {
-        modifiedLine = modifiedLine.substring(0, modifiedLine.length - 1);
-
-        // Create the full question and return it.
-        return randomElement(questionStarts) + " " + modifiedLine + "?";
-    }
-    // No replacement was made, so return null.
-    return null;
+  return null;
 }

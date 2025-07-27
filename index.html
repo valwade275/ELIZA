@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Val's ELIZA Demo" />
+  <title>Val's ELIZA Demo</title>
+  <link rel="stylesheet" href="elizastyle.css" />
+</head>
+
+<body onload="initialize()">
+  <header>
+    <h1>Val's ELIZA Demo Page</h1>
+  </header>
+
+  <main>
+    <section class="intro-text">
+      <p>With the proliferation of AI chatbots in our everyday lives, I wanted to explore one of the earliest chatbots.</p> 
+      <p>
+        ELIZA was developed in the 1960s by Joseph Weizenbaum. My ELIZA project is a very simple implementation using JavaScript, HTML, and CSS.
+        This project demonstrates some of my coding and technical writing skills through the use of logic and various JavaScript functions.
+        If you would like to learn more about the history of ELIZA, 
+        <a href="https://en.wikipedia.org/wiki/ELIZA" target="_blank">click here</a>.
+      </p>
+    </section>
+
+    <section class="instructions">
+      <h3>Welcome to Dr. Eliza's virtual office! It is quite easy to chat with me.</h3> 
+      <h3>Just use the green "Submit" button to let me know what you are thinking.</h3>
+      <h3>You will see my responses in the text box below.</h3>
+    </section>
+
+    <section class="input-section">
+      <label for="textbox">Type your questions and responses here:</label>
+      <input id="textbox" size="150" />
+      <button onclick="submitLine()">Submit</button>
+    </section>
+
+    <article id="conversation">
+      <!-- Chat conversation appears here -->
+    </article>
+
+    <section class="documentation-link">
+      <a href="https://github.com/valwade275/ELIZA/blob/main/DocumentationForEliza.md" class="docs-button" target="_blank">📄 View Documentation</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024–2025 Valerie Wade. All rights reserved.</p>
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">
+      <img src="https://img.icons8.com/?size=45&id=yLuI6PMA_a0O&format=png&color=000000" alt="License" />
+    </a>
+    <a href="https://vcwade.com/" target="_blank">
+      <img src="https://img.icons8.com/bubbles/50/000000/web.png" alt="Website" />
+    </a>
+    <a href="mailto:valwade275@gmail.com">
+      <img src="https://img.icons8.com/bubbles/50/000000/gmail.png" alt="Gmail" />
+    </a>
+    <a href="https://linkedin.com/in/vcwade" target="_blank">
+      <img src="https://img.icons8.com/bubbles/50/000000/linkedin.png" alt="LinkedIn" />
+    </a>
+    <a href="https://valwade275.github.io/" target="_blank">
+      <img src="https://img.icons8.com/bubbles/50/000000/github.png" alt="GitHub" />
+    </a>
+  </footer>
+
+  <script src="elizaapp.js"></script>
+</body>
+</html>
